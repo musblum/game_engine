@@ -7,6 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SDL3 REQUIRED CONFIG)
 
-add_executable(game_engine main.cpp)
+add_executable(game_engine src/main.cpp
+        engine/src/Engine.cpp)
+
+target_include_directories(game_engine PRIVATE
+        engine/include
+)
 
 target_link_libraries(game_engine PRIVATE SDL3::SDL3)
