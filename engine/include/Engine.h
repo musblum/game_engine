@@ -16,6 +16,7 @@ class Engine {
 
     SDL_Window* window_;
     bool running_;
+    SDL_GLContext glContext_;
 
 
 };
