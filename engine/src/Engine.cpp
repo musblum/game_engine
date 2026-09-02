@@ -9,7 +9,6 @@ Engine::~Engine() {
     shutdown();
 }
 
-
 bool Engine::initialize() {
 
 
@@ -47,6 +46,14 @@ void Engine::processEvents() {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
                 running_ = false;
+            }
+            if (event.type == SDL_EVENT_KEY_DOWN) {
+                if (event.key.key == SDLK_ESCAPE) {
+                    running_ = false;
+                }
+                if (event.key.key == SDLK_SPACE) {
+                    std::cout << "Space Pressed" << std::endl;
+                }
             }
         }
 }
