@@ -9,7 +9,9 @@ find_package(SDL3 REQUIRED CONFIG)
 find_package(OpenGL REQUIRED)
 
 add_executable(game_engine src/main.cpp
-        engine/src/Engine.cpp)
+        engine/src/Engine.cpp
+        engine/src/Renderer.cpp
+        engine/include/Renderer.h)
 
 target_include_directories(game_engine PRIVATE
         engine/include

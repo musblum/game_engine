@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include "Renderer.h"
 
 
 class Engine {
@@ -18,6 +19,7 @@ class Engine {
     bool running_;
     SDL_GLContext glContext_;
 
+    Renderer renderer_;
 
 };
 
