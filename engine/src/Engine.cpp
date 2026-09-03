@@ -34,7 +34,7 @@ bool Engine::initialize() {
         "Window",
         1920,
          1080,
-        SDL_WINDOW_OPENGL
+        SDL_WINDOW_OPENGL | SDL_WINDOW_HIGH_PIXEL_DENSITY
         );
 
     if (window_ == nullptr) {
@@ -49,6 +49,15 @@ bool Engine::initialize() {
                   << SDL_GetError() << std::endl;
         return false;
     }
+
+    int pixelWidth;
+    int pixelHeight;
+
+    SDL_GetWindowSizeInPixels(window_, &pixelWidth, &pixelHeight);
+
+    std::cout << "Pixel size: " << pixelWidth << " x " << pixelHeight << std::endl;
+
+    glViewport(0, 0, pixelWidth, pixelHeight);
 
     SDL_GL_SetSwapInterval(1);
     glEnable(GL_MULTISAMPLE);
