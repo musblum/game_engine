@@ -21,6 +21,15 @@ bool Engine::initialize() {
         return false;
     }
 
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(
+        SDL_GL_CONTEXT_PROFILE_MASK,
+        SDL_GL_CONTEXT_PROFILE_CORE
+    );
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+
     window_ = SDL_CreateWindow(
         "Window",
         1920,
@@ -35,12 +44,19 @@ bool Engine::initialize() {
 
     glContext_ = SDL_GL_CreateContext(window_);
     SDL_GL_SetSwapInterval(1);
+    glEnable(GL_MULTISAMPLE);
     if (glContext_ == nullptr) {
         std::cout << "Failed to create OpenGL context: "
                   << SDL_GetError() << std::endl;
         return false;
     }
-    glClearColor(1.0f, 0.5f, 0.8f, 1.0f);
+
+    if (!renderer_.initialize()) {
+        std::cout << "Failed to initialize renderer." << std::endl;
+        return false;
+    }
+
+    glClearColor(0.08f, 0.08f, 0.10f, 1.0f);
 
 
     return true;
@@ -65,6 +81,7 @@ void Engine::run() {
         // std::cout << deltaTime << std::endl;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        renderer_.render();
         SDL_GL_SwapWindow(window_);
 
     }
@@ -89,11 +106,13 @@ void Engine::processEvents() {
 }
 
 void Engine::shutdown() {
+    std::cout << "Shutting down..." << std::endl;
+
+    renderer_.shutdown();
 
     if (window_ != nullptr) {
         SDL_DestroyWindow(window_);
         window_ = nullptr;
-        std::cout << "Shutting down..." << std::endl;
     }
 
     if (glContext_ != nullptr) {
