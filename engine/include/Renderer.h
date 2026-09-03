@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include <OpenGl/gl3.h>
+#include <OpenGL/gl3.h>
 
 class Renderer {
     public:
@@ -12,7 +12,7 @@ class Renderer {
     void shutdown();
 
     private:
-    std::array<float, 16> vertices_;
+    std::array<float, 6> vertices_;
 
     GLuint vbo_;
     GLuint vao_;

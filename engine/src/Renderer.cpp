@@ -135,5 +135,4 @@ void Renderer::shutdown() {
 }
 
 Renderer::~Renderer() {
-    shutdown();
 }

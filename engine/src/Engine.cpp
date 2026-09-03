@@ -43,13 +43,15 @@ bool Engine::initialize() {
     }
 
     glContext_ = SDL_GL_CreateContext(window_);
-    SDL_GL_SetSwapInterval(1);
-    glEnable(GL_MULTISAMPLE);
+
     if (glContext_ == nullptr) {
         std::cout << "Failed to create OpenGL context: "
                   << SDL_GetError() << std::endl;
         return false;
     }
+
+    SDL_GL_SetSwapInterval(1);
+    glEnable(GL_MULTISAMPLE);
 
     if (!renderer_.initialize()) {
         std::cout << "Failed to initialize renderer." << std::endl;
@@ -110,14 +112,14 @@ void Engine::shutdown() {
 
     renderer_.shutdown();
 
+    if (glContext_ != nullptr) {
+        SDL_GL_DestroyContext(glContext_);
+        glContext_ = nullptr;
+    }
     if (window_ != nullptr) {
         SDL_DestroyWindow(window_);
         window_ = nullptr;
     }
 
-    if (glContext_ != nullptr) {
-        SDL_GL_DestroyContext(glContext_);
-        glContext_ = nullptr;
-    }
     SDL_Quit();
 }
